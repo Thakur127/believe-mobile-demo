@@ -1,50 +1,72 @@
-# Welcome to your Expo app 👋
+# Believe Screener Mobile Demo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A demo app for the [Believe Screener](https://believescreener.com) mobile app.
 
-## Get started
+## Approach to the Solution
 
-1. Install dependencies
+I used the following endpoints to fetch `chainId` and `tokenAddress`:
 
-   ```bash
-   npm install
-   ```
+1. [`/token-profiles/latest/v1`](https://api.dexscreener.com/token-profiles/latest/v1)
+2. [`/token-boosts/latest/v1`](https://api.dexscreener.com/token-boosts/latest/v1)
+3. [`/token-boosts/top/v1`](https://api.dexscreener.com/token-boosts/top/v1)
 
-2. Start the app
+With the fetched token addresses, I then hit:
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+https://believescreener.com/token/{tokenAddress}
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+This endpoint returns raw HTML. If the token does **not** exist on Believe Screener, the HTML response includes the text `"Token not found"`. I use this to verify whether the token exists.
 
-## Learn more
+After that, I hit:
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+https://api.dexscreener.com/tokens/v1/{chainId}/{tokenAddresses}
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+This returns the full token details.
 
-## Join the community
+> ⚠️ Note: Don't expect to see a Believe Screener token in the "Trending" list. Each endpoint returns only 30 tokens (90 total across all 3), so the chance of randomly hitting a Believe Screener token is very low.
 
-Join our community of developers creating universal apps.
+## Running the App
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**1. Clone the repo:**
+
+```bash
+git clone https://github.com/Thakur127/believe-mobile-demo.git
+```
+
+**2. Install dependencies:**
+
+```bash
+cd believe-mobile-demo
+npm install
+```
+
+**3. Run the app:**
+
+```bash
+npm start
+```
+
+A QR code will appear in your terminal.
+
+- On **Android**, install [Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent) and scan the QR code using the app.
+- On **iOS**, scan it directly with your camera (not tested — I don’t have a Mac or iPhone).
+
+## Screenshots
+
+**Home Screen**
+![Home Screen](./.github/assets/home.jpeg)
+
+**Token Screen**
+![Token Screen](./.github/assets/token-detail.jpeg)
+
+**Search Screen**
+![Search Screen](./.github/assets/search.jpeg)
+
+## Demo Video
+
+[Demo Video](https://www.youtube.com/shorts/l12EW-b7I-U)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l12EW-b7I-U" frameborder="0" allowfullscreen></iframe>
