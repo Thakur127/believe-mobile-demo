@@ -30,6 +30,8 @@ This returns the full token details.
 
 ## Running the App
 
+> **Note:** You'll need to have [Node.js](https://nodejs.org/en/download/) and [npm](https://www.npmjs.com/) installed. I have built this app using `Node.js v18.19.1` and `npm 9.2.0`.
+
 **1. Clone the repo:**
 
 ```bash
